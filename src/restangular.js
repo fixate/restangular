@@ -1273,7 +1273,8 @@ module.provider('Restangular', function() {
                  serv.one = _.bind(one, (parent || service), parent, route);
                  serv.post = _.bind(collection.post, collection);
                  serv.getList = _.bind(collection.getList, collection);
-                 for (var prop in knownCollectionMethods) {
+                 for (var _i in knownCollectionMethods) {
+                   var prop = knownCollectionMethods[_i];
                    if (!collection.hasOwnProperty(prop) && _.isFunction(collection[prop])) {
                      serv[prop] = _.bind(collection[prop], collection);
                    }
