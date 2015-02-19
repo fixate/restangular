@@ -1,6 +1,6 @@
 /**
  * Restful Resources service for AngularJS apps
- * @version v1.4.0 - 2014-04-25 * @link https://github.com/mgonto/restangular
+ * @version v1.4.0 - 2015-02-19 * @link https://github.com/mgonto/restangular
  * @author Martin Gontovnikas <martin@gon.to>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */(function() {
@@ -1260,11 +1260,29 @@ module.provider('Restangular', function() {
              }
 
              function toService(route, parent) {
+                 var knownCollectionMethods = [
+                   'customGET',
+                   'doGET',
+                   'customPOST',
+                   'doPOST',
+                   'customPUT',
+                   'doPUT',
+                   'customDELETE',
+                   'doDELETE',
+                   'customGETLIST',
+                   'doGETLIST',
+                   'customOperation'
+                 ];
                  var serv = {};
                  var collection = (parent || service).all(route);
                  serv.one = _.bind(one, (parent || service), parent, route);
                  serv.post = _.bind(collection.post, collection);
                  serv.getList = _.bind(collection.getList, collection);
+                 for (var prop in collection) {
+                   if (collection.hasOwnProperty(prop) && _.isFunction(collection[prop]) && !_.contains(knownCollectionMethods, prop)) {
+                     serv[prop] = _.bind(collection[prop], collection);
+                   }
+                 }
                  return serv;
              }
 
