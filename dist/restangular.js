@@ -1280,7 +1280,7 @@ module.provider('Restangular', function() {
                  serv.getList = _.bind(collection.getList, collection);
                  for (var _i in knownCollectionMethods) {
                    var prop = knownCollectionMethods[_i];
-                   if (!collection.hasOwnProperty(prop) && _.isFunction(collection[prop])) {
+                   if (collection.hasOwnProperty(prop) && _.isFunction(collection[prop])) {
                      serv[prop] = _.bind(collection[prop], collection);
                    }
                  }
