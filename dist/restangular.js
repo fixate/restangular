@@ -1278,8 +1278,8 @@ module.provider('Restangular', function() {
                  serv.one = _.bind(one, (parent || service), parent, route);
                  serv.post = _.bind(collection.post, collection);
                  serv.getList = _.bind(collection.getList, collection);
-                 for (var prop in collection) {
-                   if (collection.hasOwnProperty(prop) && _.isFunction(collection[prop]) && !_.contains(knownCollectionMethods, prop)) {
+                 for (var prop in knownCollectionMethods) {
+                   if (!collection.hasOwnProperty(prop) && _.isFunction(collection[prop])) {
                      serv[prop] = _.bind(collection[prop], collection);
                    }
                  }
